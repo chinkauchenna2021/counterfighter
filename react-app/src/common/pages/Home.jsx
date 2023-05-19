@@ -46,7 +46,7 @@ function Home() {
 
   return (
     <MainLayout>
-      <div className="relative w-full h-screen flex flex-col lg:flex-row  justify-center items-center">
+      <div className="container relative w-full h-screen flex flex-col lg:flex-row  justify-center items-center">
         <div className="lg:border-r flex justify-center  border-orange-400 w-full min-h-screen relative">
           {displayLighthouse.isOpen && (
             <Lightbox

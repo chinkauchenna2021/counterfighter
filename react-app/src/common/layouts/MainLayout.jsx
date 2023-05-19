@@ -4,7 +4,7 @@ import SideBarLayout from "./SideBarLayout";
 
 function MainLayout({ children }) {
   return (
-      <div className="container flex  flex-row">
+      <div className="container flex flex-row ">
           <SideBarLayout />
           {children}
     </div>
