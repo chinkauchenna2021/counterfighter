@@ -26,9 +26,9 @@ function Home() {
 
     
     const getScannerResult = (result, error) => {
-      if (!result) {
+      if (result) {
           setData(result?.text);
-        //   console.log(result)
+          console.log(result?.text)
       }
       if (!error) {
           console.info(error);
@@ -47,7 +47,7 @@ function Home() {
   return (
     <MainLayout>
       <div className="container relative w-full h-screen flex flex-col lg:flex-row  justify-center items-center">
-        <div className="lg:border-r flex justify-center  border-orange-400 w-full min-h-screen relative">
+        <div className="lg:border-r flex justify-center  border-slate-400 w-full min-h-screen ">
           {displayLighthouse.isOpen && (
             <Lightbox
               open={displayLighthouse.isOpen}
@@ -60,11 +60,11 @@ function Home() {
             />
           )}
 
-          <div className={`flex justify-center lg:fixed`}>
+          <div className={`flex justify-center lg:fixed left-1/4 top-0 lg:py-5`}>
             <QrReader
               videoContainerStyle={{
-                width: width > 800 ? width / 5 : width,
-                height: height,
+                width: (width > 800) ? (width / 5) : width,
+                height: (height > 850)? width : (height),
               }}
               scanDelay={100}
               ViewFinder={ViewFinder}
@@ -84,7 +84,7 @@ function Home() {
               <FaRegWindowClose size={28} color={"AA77FF"} />
             </div>
           </button>
-          <div className={`w-full max-h-[500px] pt-72  lg:h-screen overflow-y-scroll  flex justify-center items-center lg:pt-32`}>
+          <div className={`w-full max-h-[500px] lg:max-h-[700px] pt-72  lg:h-screen overflow-y-scroll  flex justify-center items-center`}>
             <div className="w-full min-h-[400px] lg:w-8/12 lg:h-screen flex flex-col justify-center items-center pt-4">
               <button className="w-11/12 border h-fit border-slate-300">
                 <img
@@ -94,7 +94,7 @@ function Home() {
                   className=""
                 />
               </button>
-              <div className="w-11/12 border h-fit flex-col border-slate-300 my-2">
+              <div className="w-11/12 border h-fit flex-col border-slate-300 my-2 placeholder lg:px-5">
                 <div className="w-full h-fit text-center py-4 font-bold text-lg tracking-wide text-blue-400">
                   Ramipril Capsule
                 </div>
@@ -157,7 +157,7 @@ function Home() {
                 <div className="flex flex-row justify-between items-center px-2 py-3 my-4">
                   <button
                     type="button"
-                    className="w-full lg:w-10/12 mx-auto  h-fit py-1 ring-1 ring-[#AA77FF] ring-offset-4 text-md text-white text-blue-500 font-semibold capitalize bg-[#AA77FF]"
+                    className="w-full lg:w-12/12 mx-auto  h-fit py-1 ring-1 ring-[#AA77FF] ring-offset-4 text-md text-white text-blue-500 font-semibold capitalize bg-[#AA77FF]"
                   >
                     Report Abuse{" "}
                   </button>
@@ -166,11 +166,11 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className=" flex justify-center items-center w-full absolute bottom-3 left-0  lg:hidden">
+        <div className="flex justify-center items-center w-full absolute bottom-5 left-0  lg:hidden">
           <button
             onClick={() => enterCodeGenPage()}
             type="button"
-            className="z-10 w-11/12 m-auto h-10 ring-[#AA77FF] ring-1 ring-offset-2 bg-[#AA77FF] text-white text-md font-bold tracking-wider"
+            className="z-10 w-11/12  m-auto h-10 ring-[#AA77FF] ring-1 ring-offset-2 bg-[#AA77FF] text-white text-md font-bold tracking-wider"
           >
             Back
           </button>
