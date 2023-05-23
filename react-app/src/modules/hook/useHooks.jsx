@@ -1,3 +1,4 @@
+
 export const ViewFinder = () => (
   <div className="rounded-lg">
     <svg

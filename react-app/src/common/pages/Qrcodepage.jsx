@@ -5,6 +5,7 @@ import { getOnStorage } from '../../modules/hook/store/localStorgageStore';
 import MainLayout from '../layouts/MainLayout';
 import { saveAs } from 'file-saver';
 import { useNavigate } from 'react-router';
+import axios from "axios";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -57,30 +58,52 @@ function Qrcodepage() {
     const STORAGENAME = "saved_to_db_local";
     const navigate = useNavigate();
     useEffect(() => {
-        (async () => {
-            try {
-                
-        const localData = getOnStorage(STORAGENAME)
-                const generatedURL = await QRCode.toDataURL(localData);
-                setStorageURL(generatedURL);
-                 const data = {
-                   files: [
-                     new File([generatedURL], "image.png", {
-                       type: generatedURL.type,
-                     }),
-                   ],
-                   title: "Image",
-                   text: "image",
-                };
-                setGetFile(data)
-            } catch (e) {  
-                window.alert("fetching data from storage..." );
-            }
+      (async () => {
+        try {
+            const localData = getOnStorage(STORAGENAME);
+          const generatedURL = await QRCode.toDataURL(localData.toString());
+          const localStorageConverted = JSON.parse(localData);
+          const data = {
+            qrcode: generatedURL,
+            batchNo: localStorageConverted.batchNo,
+          };
+          await axios
+            .post("http://localhost:5000/saveqrcode", data, {
+              headers: {
+                "Content-Type": `multipart/form-data`,
+              },
+            })
+            .then((response) => {
+              const batch = { batchNo: localStorageConverted.batchNo };
+              console.log("sent to the database");
+              axios
+                .post("http://localhost:5000/getBlob", batch, {
+                  headers: {
+                    "Content-Type": `multipart/form-data`,
+                  },
+                })
+                .then((response) => {
+                  if (response.data.result.length > 0) {
+                    setStorageURL(response.data.result[0].qrcode);
+                  } else {
+                    console.log("nothing was returned from the DB");
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            })
+            .catch((e) => {
+              console.log("failed");
+            });
+        } catch (e) {
+          console.log(e);
+        }
       })();
     }, [storageURL]);
 
     const downloadImage = () => {
-      saveAs(storageURL, `image_${Math.random()}_.jpg`) // Put your image url here.
+      saveAs(storageURL, `image${new Date()}_.jpg`) // Put your image url here.
     };
 
     const enterHome = () => {
@@ -135,7 +158,7 @@ function Qrcodepage() {
             <button
               type="button"
               onClick={() => downloadImage()}
-              className="h-8 w-11/12 lg:w-3/12 ring-2 ring-offset-2 ring-[#AA77FF] bg-[#AA77FF] text-white font-bold text-sm capitalize"
+              className="h-6 w-11/12 lg:w-3/12 ring-2 ring-offset-2 ring-[#AA77FF] bg-[#AA77FF] text-white font-bold text-xs capitalize"
             >
               download image
             </button>

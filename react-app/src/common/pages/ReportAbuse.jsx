@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import Webcam from "react-webcam";
 import { useWindowSize } from "@react-hook/window-size";
 import MainLayout from "../layouts/MainLayout";
@@ -18,7 +18,8 @@ function ReportAbuse() {
     width: 1280,
     height: 720,
     facingMode: "user",
-  };
+    };
+    
 
   const webcamRef = useRef(null);
   const capture = React.useCallback(() => {

@@ -1,25 +1,30 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { reactLocalStorage } from 'reactjs-localstorage';
+import moment from 'moment'
 
 
 export const setOnStorage = (name, data) => {
     if (data == "") return;
-    window.localStorage.setItem(name, data);
+    reactLocalStorage.set(name, JSON.stringify(data));
     return true;
 }
 
-
 export const getOnStorage = (name) => {
-    let localData = window.localStorage.getItem(name);
+    let localData = reactLocalStorage.get(name);
     return localData;
 }
 
 export const clearStorage = () => {
-    window.localStorage.clear();
+   reactLocalStorage.clear();
     return true;
 }
 
 export const removeOnStorage = (name) => {
-    window.localStorage.removeItem(name)
+   reactLocalStorage.remove(name)
     return true;
+}
+
+export const dateFormat = (data) => {
+     return moment(data).format("YYYY-MM-DD")
 }
